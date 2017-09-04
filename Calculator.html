@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+    <head>        
+    </head>
+
+    <body>
+        <div id="Calc">
+        <h4>KALCULATOR</h4>
+        <div id="screen">
+        </div>
+
+        <div id="numbers">
+            <span onclick="input(this)">7</span>
+            <span onclick="input(this)">8</span>
+            <span onclick="input(this)">9</span>
+            <br>
+
+            <span onclick="input(this)">4</span>
+            <span onclick="input(this)">5</span>
+            <span onclick="input(this)">6</span>
+            <br>
+
+            <span onclick="input(this)">1</span>
+            <span onclick="input(this)">2</span>
+            <span onclick="input(this)">3</span>
+            <br>
+
+            <span onclick="input(this)">0</span>
+            <span onclick="input(this)">.</span>
+           
+        </div>
+
+         <div>
+            <span onclick="Eval(this)">=</span>
+            <span onclick="Eval(this)">÷</span>
+            <span onclick="Eval(this)">X</span>
+            <span onclick="Eval(this)">-</span>
+            <span onclick="Eval(this)">+</span>
+        </div>
+
+        <div>
+            <span onclick="blank()">CE</span>
+        </div>
+        </div>
+    </body>
+
+    <script type="text/javascript">
+            var num = document.getElementById('numbers').getElementsByTagName('span');
+            var display = document.getElementById('screen');
+            var arr = ['÷', 'X', '-', '+'];
+            display.innerHTML = "";
+
+            function input(val){
+
+                for(var i = 0; i < arr.length; i++){
+                    if(display.innerHTML[display.innerHTML.length-1] == arr[i] && val.innerHTML === '.'){
+                        display.innerHTML += '0.';
+                    }
+                }
+
+                for(var j = 0; j < arr.length; j++){
+                    if(display.innerHTML.indexOf(arr[j]) !== -1 && val.innerHTML === '.'){
+                        var test = display.innerHTML.split(arr[j]);
+                        if(test[1].indexOf('.') !== -1)
+                            display.innerHTML += "";
+                        else
+                            display.innerHTML += val.innerHTML;
+                    }
+                }
+
+                if(display.innerHTML == "" && val.innerHTML === '.'){
+                    display.innerHTML = '0.';
+                }
+                else if(display.innerHTML.indexOf('.') !== -1 && val.innerHTML === '.'){
+                    display.innerHTML += "";
+                }
+                else
+                    display.innerHTML += val.innerHTML;
+            }
+
+            function Eval(input){
+
+                if(display.innerHTML == ""){
+                    display.innerHTML = "";
+                }
+                else if(display.innerHTML[display.innerHTML.length-1] == '.'){
+                    var elem = display.innerHTML.slice(0, -1);
+                    Output(elem); 
+                }
+                else{
+                    Output(display.innerHTML);
+                }
+
+                function Output(operation){
+                    var calc;
+                    var oper = input.innerHTML;
+
+                    if (input.innerHTML == '='){
+                        oper = "";
+                        for(var i = 0; i < arr.length; i++){
+                            if(operation[operation.length-1] == arr[i])
+                                operation = operation.substring(0, operation.length-1);
+                        }
+                    }                         
+                    if(operation.indexOf("÷") > -1){
+                        if(operation[operation.length-1] != '÷'){
+                            calc = operation.split("÷");
+                            operation = (calc[0] / calc[1]) + oper;
+                        } else
+                            oper = "";
+                    } else if(operation.indexOf("X") > -1){
+                        if(operation[operation.length-1] != 'X'){
+                            calc = operation.split("X");
+                            operation = (calc[0] * calc[1]) + oper;
+                        } else
+                            oper = "";
+                    } else if(operation.indexOf("-") > -1){
+                        if(operation[operation.length-1] != '-'){
+                            calc = operation.split("-");
+                            operation = (calc[0] - calc[1]) + oper;
+                        } else
+                            oper = "";
+                    } else if(operation.indexOf("+") > -1){
+                        if(operation[operation.length-1] != '+'){
+                            calc = operation.split("+");
+                            operation = (parseFloat(calc[0]) + parseFloat(calc[1])) + oper;                                
+                        } else
+                            oper = "";
+                    } else                                    
+                            operation += oper;
+                            display.innerHTML = operation;            
+                }
+            }
+
+            function blank(){
+                display.innerHTML = "";
+            }
+</script>
+
+<style type="text/css">
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#Calc {
+    width: 170px;
+    height: 220px;
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #dfd8d0;
+    border: 2px solid black;
+    border-radius: 15px;
+}
+
+h4{
+    margin-top: 5%;
+    text-align: center;
+}
+
+#screen{
+    width: 150px;
+    height: 25px;
+    margin-top: -8%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    color: black;
+    text-align: right;
+}
+
+span{
+    display: inline-block;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+    background-color: pink;
+}
+
+#numbers{
+    color: #fff;
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+}
+</style>
+</html>
